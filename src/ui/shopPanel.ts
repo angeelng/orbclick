@@ -69,7 +69,10 @@ export function mountShopPanel(host: HTMLElement, game: Game): void {
   title.append(element('h2', { text: ES.shop.title, attrs: { id: 'shop-title' } }));
 
   const tabs = element('div', { className: 'tabs', attrs: { role: 'tablist' } });
-  const body = element('div', { className: 'shop-body' });
+  const body = element('div', {
+    className: 'shop-body',
+    attrs: { id: 'shop-body', role: 'tabpanel', 'aria-label': ES.shop.title },
+  });
   const lockedNote = element('p', { className: 'column-hint' });
 
   host.replaceChildren(title, tabs, body, lockedNote);
@@ -81,7 +84,7 @@ export function mountShopPanel(host: HTMLElement, game: Game): void {
     const button = element('button', {
       className: 'tab',
       text: ES.shop.tabs[category],
-      attrs: { type: 'button', role: 'tab' },
+      attrs: { type: 'button', role: 'tab', 'aria-controls': 'shop-body' },
     });
     button.addEventListener('click', () => {
       activeCategory = category;
@@ -97,6 +100,8 @@ export function mountShopPanel(host: HTMLElement, game: Game): void {
       const selected = category === activeCategory;
       button.classList.toggle('tab--active', selected);
       button.setAttribute('aria-selected', String(selected));
+      // Patrón ARIA de pestañas: solo la activa entra en el tabulador.
+      button.tabIndex = selected ? 0 : -1;
     }
   };
 

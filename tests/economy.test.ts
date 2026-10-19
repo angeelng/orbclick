@@ -75,19 +75,20 @@ describe('monedas por clic', () => {
     );
   });
 
-  it('con los cinco guantes al tope el clic da más de quince veces la XP base', () => {
+  it('con los cinco guantes al tope el clic da varias veces la XP base', () => {
     const upgrades = Object.fromEntries(
       UPGRADE_LIST.map((upgrade) => [upgrade.id, BALANCE.shop.maxUpgradeOwned]),
     );
     const lleno = { ...state, upgrades };
-    expect(xpPerClick(lleno) / BALANCE.click.baseXp).toBeGreaterThan(15);
+    // Ajuste de la fase 7: los guantes aceleran el nivel sin dispararlo.
+    expect(xpPerClick(lleno) / BALANCE.click.baseXp).toBeGreaterThan(5);
   });
 
   // Los primeros guantes son lo único que acelera el nivel antes de la
   // Guardería, así que su efecto tiene que notarse ya en la barra.
-  it('los diez primeros guantes al menos triplican la XP del clic', () => {
+  it('los diez primeros guantes al menos duplican la XP del clic', () => {
     const lleno = { ...state, upgrades: { 'gloves-1': BALANCE.shop.maxUpgradeOwned } };
-    expect(xpPerClick(lleno) / BALANCE.click.baseXp).toBeGreaterThanOrEqual(3);
+    expect(xpPerClick(lleno) / BALANCE.click.baseXp).toBeGreaterThanOrEqual(2);
   });
 
   it('las unidades por encima del tope no cuentan para la XP', () => {

@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { applyClick, tick } from '../src/core/engine';
 import { createRng } from '../src/core/rng';
 import { coinsPerClick, xpPerClick } from '../src/core/economy';
+import { xpForNextLevel } from '../src/core/progression';
 import { createInitialState } from '../src/core/state';
 import { BALANCE } from '../src/data/balance';
 
@@ -30,7 +31,7 @@ describe('applyClick', () => {
   it('avisa de la subida de nivel al acumular XP suficiente', () => {
     let state = createInitialState(0, 1);
     let levelUps = 0;
-    const clicksNeeded = 100 / BALANCE.click.baseXp;
+    const clicksNeeded = xpForNextLevel(1) / BALANCE.click.baseXp;
     for (let i = 0; i < clicksNeeded; i += 1) {
       const result = applyClick(state, i);
       state = result.state;

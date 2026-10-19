@@ -1,6 +1,6 @@
 {
-  "updatedAt": "2026-10-12T20:10:23Z",
-  "currentPhase": 6,
+  "updatedAt": "2026-10-18T19:23:57Z",
+  "currentPhase": 7,
   "currentTask": null,
   "phases": [
     {
@@ -822,45 +822,98 @@
     {
       "id": 7,
       "name": "Pulido",
-      "status": "pending",
-      "startedAt": null,
-      "finishedAt": null,
+      "status": "done",
+      "startedAt": "2026-10-18T18:59:24Z",
+      "finishedAt": "2026-10-18T19:23:57Z",
       "tasks": [
         {
           "id": "7.1",
           "title": "data/achievements.ts: ~25 logros con +1 % de producción global",
-          "status": "pending",
-          "finishedAt": null
+          "status": "done",
+          "finishedAt": "2026-10-18T19:05:31Z",
+          "notes": "28 logros declarativos en data/achievements.ts y su evaluador puro en core/achievements.ts. Cada logro suma +1 % al termino global de M_clic, que arrastra tambien las monedas del Rancho. Se revisan al cierre de cada tick, se guardan en el estado (SAVE_VERSION 8 con migracion v7 a v8) y no se pierden al deshacer la condicion. Boton con recuento y dialogo por grupos en la barra superior, mas cartel en la zona al conseguir uno.",
+          "files": [
+            "src/data/achievements.ts",
+            "src/core/achievements.ts",
+            "src/core/economy.ts",
+            "src/core/engine.ts",
+            "src/core/state.ts",
+            "src/persistence/migrations.ts",
+            "src/persistence/parse.ts",
+            "src/ui/achievementsPanel.ts",
+            "tests/achievements.test.ts"
+          ]
         },
         {
           "id": "7.2",
           "title": "Sonido: clic, captura, victoria y ajustes de volumen",
-          "status": "pending",
-          "finishedAt": null
+          "status": "done",
+          "finishedAt": "2026-10-18T19:09:12Z",
+          "notes": "Sonido sintetizado con la Web Audio API: once efectos descritos como datos en data/sounds.ts (clic, compra, captura, escape, aparicion, golpe, nivel, logro, victoria, derrota y mecanica de jefe) y systems/audio.ts los toca con osciladores, contexto perezoso tras el primer gesto y puerta de repeticion por efecto. Volumen y silencio en la barra superior, guardados en localStorage. Nuevo evento shop:bought para que suenen tambien orbes, bayas, plazas y mejoras de puesto.",
+          "files": [
+            "src/data/sounds.ts",
+            "src/systems/audio.ts",
+            "src/ui/audioControls.ts",
+            "src/systems/events.ts",
+            "src/systems/game.ts",
+            "tests/audio.test.ts"
+          ]
         },
         {
           "id": "7.3",
           "title": "Ajuste de balance de la curva completa del MVP",
-          "status": "pending",
-          "finishedAt": null
+          "status": "done",
+          "finishedAt": "2026-10-18T19:15:13Z",
+          "notes": "Nuevo scripts/balance-curve.ts (npm run balance:curve) que simula la partida entera con las reglas puras de core/: clics, capturas, orbes, reparto del Rancho, compras, combates y jefes, y saca el tiempo hasta cada nivel. Con la curva de arranque el MVP se terminaba en 32 min de juego activo; ahora la XP de entrenador es 240 x 1,58^n y la XP de los guantes esta a la mitad, lo que deja 3 h 25 min de juego activo (4 clics/s) y 12 h 30 min de juego tranquilo (1 clic/s), con 23 combates ganados y 2 perdidos. Los tests que fijaban los numeros viejos ahora derivan de BALANCE y hay una guarda de la XP total.",
+          "files": [
+            "scripts/balance-curve.ts",
+            "src/data/balance.ts",
+            "src/data/items.ts",
+            "tests/progression.test.ts",
+            "tests/economy.test.ts",
+            "package.json"
+          ]
         },
         {
           "id": "7.4",
           "title": "Adaptación a móvil con pestañas inferiores",
-          "status": "pending",
-          "finishedAt": null
+          "status": "done",
+          "finishedAt": "2026-10-18T19:22:40Z",
+          "notes": "Por debajo de 1024 px las tres columnas se cambian con una barra de pestanas fija abajo (Zona, Rancho, Tienda) y solo se maqueta la activa; la pestana que no se mira avisa con un punto cuando aparece una salvaje, empieza un combate, se abre una zona o entra una captura. La eleccion se recuerda en localStorage. Pasada de movil a 560 px: HUD reordenado, dialogos a pantalla casi completa, lista de logros a una columna y 40 px minimos en todo lo que se pulsa. Comprobado en Chrome a 400 px de ancho.",
+          "files": [
+            "src/ui/mobileTabs.ts",
+            "src/styles/layout.css",
+            "index.html",
+            "src/main.ts",
+            "src/i18n/es.ts"
+          ]
         },
         {
           "id": "7.5",
           "title": "Pulido de interfaz, accesibilidad y teclado",
-          "status": "pending",
-          "finishedAt": null
+          "status": "done",
+          "finishedAt": "2026-10-18T19:23:57Z",
+          "notes": "Teclado: atajos globales (1-2-3 para viajar, L logros, M silencio, T tema, Z lleva el foco al objeto, ? la chuleta) con su dialogo de ayuda y un boton Teclas en la barra; no se disparan mientras se escribe ni con modificadores. Accesibilidad: region viva aria-live que repite en texto lo que el cartel del canvas canta (aparicion, captura, huida, logro, nivel, jefe, fin de combate), pestanas de tienda y Rancho con role tabpanel, aria-controls y tabulador solo en la activa, y dialogos etiquetados.",
+          "files": [
+            "src/ui/shortcuts.ts",
+            "src/ui/announcer.ts",
+            "src/ui/shopPanel.ts",
+            "src/ui/ranchPanel.ts",
+            "src/ui/achievementsPanel.ts",
+            "src/ui/themeToggle.ts",
+            "src/ui/zonePanel.ts",
+            "src/main.ts"
+          ]
         },
         {
           "id": "7.6",
-          "title": "Despliegue en Cloudflare Pages con build automático",
-          "status": "pending",
-          "finishedAt": null
+          "title": "Despliegue con build automatico (GitHub Pages en vez de Cloudflare Pages)",
+          "status": "done",
+          "finishedAt": "2026-10-18T19:23:57Z",
+          "notes": "El autor ya tenia el juego publicado en GitHub Pages con un workflow de Actions (commit 5baad9a), asi que se da por cubierto el despliegue automatico y se descarta Cloudflare Pages por decision suya.",
+          "files": [
+            ".github/workflows"
+          ]
         },
         {
           "id": "7.7",
@@ -928,6 +981,42 @@
     }
   ],
   "log": [
+    {
+      "at": "2026-10-18T19:23:57Z",
+      "phase": 7,
+      "task": "7.5",
+      "message": "Pulido final: atajos de teclado con chuleta, region viva para lectores de pantalla y semantica de pestanas. Fase 7 cerrada; el despliegue queda en GitHub Pages."
+    },
+    {
+      "at": "2026-10-18T19:22:40Z",
+      "phase": 7,
+      "task": "7.4",
+      "message": "Movil con pestanas inferiores: una columna a la vez, punto de aviso en las otras y pulsables de 40 px."
+    },
+    {
+      "at": "2026-10-18T19:15:13Z",
+      "phase": 7,
+      "task": "7.3",
+      "message": "Balance ajustado con un simulador propio de la curva: el MVP pasa de 32 min a 3 h 25 min de juego activo. 358 tests en verde."
+    },
+    {
+      "at": "2026-10-18T19:09:12Z",
+      "phase": 7,
+      "task": "7.2",
+      "message": "Sonido listo: efectos sintetizados sin archivos, con volumen y silencio en la barra superior. 357 tests en verde."
+    },
+    {
+      "at": "2026-10-18T19:05:31Z",
+      "phase": 7,
+      "task": "7.1",
+      "message": "Logros listos: 28 metas con +1 % de produccion global cada una, con dialogo propio y cartel al conseguirlas. 349 tests en verde."
+    },
+    {
+      "at": "2026-10-18T18:59:24Z",
+      "phase": 7,
+      "task": "7.1",
+      "message": "Arranca el pulido: logros con su bonus global de produccion."
+    },
     {
       "at": "2026-10-12T20:10:23Z",
       "phase": 7,

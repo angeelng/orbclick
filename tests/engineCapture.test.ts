@@ -8,6 +8,7 @@ import {
   wildHp,
 } from '../src/core/capture';
 import { buyOrbs, hitWild, tick, useOrb } from '../src/core/engine';
+import { xpForNextLevel } from '../src/core/progression';
 import { createRng, type Rng } from '../src/core/rng';
 import { createInitialState, type GameState, type WildEncounter } from '../src/core/state';
 import { BALANCE } from '../src/data/balance';
@@ -139,7 +140,7 @@ describe('XP por debilitar', () => {
   it('sube de nivel si la XP de la pelea llega', () => {
     const state = withState({
       encounter: encounterOf('ascuin', BALANCE.click.baseDamage),
-      trainer: { level: 1, xp: 99 },
+      trainer: { level: 1, xp: xpForNextLevel(1) - 1 },
     });
     const result = hitWild(state, NOW, rng());
     expect(result.levelsGained).toBe(1);
@@ -302,7 +303,7 @@ describe('useOrb', () => {
     const almost = withState({
       encounter: encounterOf('chispin'),
       orbs: { basic: 1 },
-      trainer: { level: 1, xp: 95 },
+      trainer: { level: 1, xp: xpForNextLevel(1) - 5 },
     });
     const outcome = useOrb(almost, 'basic', NOW, fakeRng([0]));
     expect(outcome.levelsGained).toBe(1);

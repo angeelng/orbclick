@@ -32,10 +32,15 @@ export interface UpgradeDefinition {
 /**
  * Guantes de entrenador I–V: cinco escalones repetibles de bonus plano y de
  * XP por clic. El GDD solo fija el primero (100 monedas, +1); el resto sigue
- * su curva de desbloqueo por nivel. La XP sube bastante por unidad para que
- * comprar guantes se note también en la barra de nivel y no solo en las
- * monedas: con los diez primeros el clic ya da el triple de XP, y con los
- * cinco al tope, quince veces la base.
+ * su curva de desbloqueo por nivel. La XP sube por unidad para que comprar
+ * guantes se note también en la barra de nivel y no solo en las monedas: con
+ * los diez primeros el clic da el doble de XP y con los cinco al tope, ocho
+ * veces y media la base.
+ *
+ * Ajuste de la fase 7: estos bonus eran el doble, y entre ellos y la curva
+ * vieja el MVP se terminaba en media hora. La simulación de
+ * `npm run balance:curve` enseñó que bajarlos a la mitad deja la aceleración
+ * que se buscaba sin saltarse el juego.
  */
 export const UPGRADES: Readonly<Record<UpgradeId, UpgradeDefinition>> = {
   'gloves-1': {
@@ -45,7 +50,7 @@ export const UPGRADES: Readonly<Record<UpgradeId, UpgradeDefinition>> = {
     category: 'click',
     basePrice: 100,
     flatBonus: 1,
-    xpBonus: 0.2,
+    xpBonus: 0.1,
     unlockLevel: 1,
   },
   'gloves-2': {
@@ -55,7 +60,7 @@ export const UPGRADES: Readonly<Record<UpgradeId, UpgradeDefinition>> = {
     category: 'click',
     basePrice: 1_000,
     flatBonus: 5,
-    xpBonus: 0.25,
+    xpBonus: 0.12,
     unlockLevel: 7,
   },
   'gloves-3': {
@@ -65,7 +70,7 @@ export const UPGRADES: Readonly<Record<UpgradeId, UpgradeDefinition>> = {
     category: 'click',
     basePrice: 10_000,
     flatBonus: 25,
-    xpBonus: 0.3,
+    xpBonus: 0.15,
     unlockLevel: 10,
   },
   'gloves-4': {
@@ -75,7 +80,7 @@ export const UPGRADES: Readonly<Record<UpgradeId, UpgradeDefinition>> = {
     category: 'click',
     basePrice: 100_000,
     flatBonus: 120,
-    xpBonus: 0.35,
+    xpBonus: 0.18,
     unlockLevel: 12,
   },
   'gloves-5': {
@@ -85,7 +90,7 @@ export const UPGRADES: Readonly<Record<UpgradeId, UpgradeDefinition>> = {
     category: 'click',
     basePrice: 1_000_000,
     flatBonus: 600,
-    xpBonus: 0.4,
+    xpBonus: 0.2,
     unlockLevel: 15,
   },
 };

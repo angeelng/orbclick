@@ -31,7 +31,11 @@ function apply(theme: Theme): void {
  * Conmutador claro / oscuro. La dirección visual es pastel claro, pero la
  * paleta tiene su variante oscura y conviene poder usarla.
  */
-export function mountThemeToggle(host: HTMLElement): void {
+export interface ThemeToggle {
+  toggle(): void;
+}
+
+export function mountThemeToggle(host: HTMLElement): ThemeToggle {
   let theme = currentTheme();
   apply(theme);
 
@@ -48,7 +52,7 @@ export function mountThemeToggle(host: HTMLElement): void {
     button.setAttribute('aria-label', theme === 'dark' ? ES.theme.light : ES.theme.dark);
   };
 
-  button.addEventListener('click', () => {
+  const toggle = (): void => {
     theme = theme === 'dark' ? 'light' : 'dark';
     apply(theme);
     try {
@@ -57,8 +61,12 @@ export function mountThemeToggle(host: HTMLElement): void {
       // Sin almacenamiento el tema dura lo que la pestaña: no es grave.
     }
     paint();
-  });
+  };
+
+  button.addEventListener('click', toggle);
 
   paint();
   host.append(button);
+
+  return { toggle };
 }

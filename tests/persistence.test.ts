@@ -88,6 +88,32 @@ describe('migrate', () => {
     expect(state['unlockedZoneIds']).toEqual(['meadow']);
   });
 
+  it('v7 → v8: una partida de la fase 6 estrena la lista de logros vacía', () => {
+    const legacy = {
+      version: 7,
+      savedAt: NOW,
+      state: { coins: 10, bosses: {}, activeZoneId: 'meadow', unlockedZoneIds: ['meadow'] },
+    };
+    const state = migrate(legacy)['state'] as Record<string, unknown>;
+    expect(state['achievements']).toEqual([]);
+  });
+
+  it('descarta los logros desconocidos y no repite los buenos', () => {
+    const parsed = parseSaveFile(
+      {
+        version: SAVE_VERSION,
+        savedAt: NOW,
+        state: {
+          activeZoneId: 'meadow',
+          achievements: ['first-click', 'first-click', 'logro-inventado', 7],
+        },
+      },
+      NOW,
+      1,
+    );
+    expect(parsed.state.achievements).toEqual(['first-click']);
+  });
+
   it('una partida de la fase 1 carga entera tras migrar', () => {
     const parsed = parseSaveFile(
       {

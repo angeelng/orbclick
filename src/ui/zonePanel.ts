@@ -13,6 +13,7 @@ import {
   type ZoneDefinition,
   type ZoneId,
 } from '../data/zones';
+import { getAchievement } from '../data/achievements';
 import { getSpecies } from '../data/species';
 import { ES } from '../i18n/es';
 import { registerCreatureSprites } from '../render/creatureSprites';
@@ -24,6 +25,8 @@ import { element, setText } from './dom';
 export interface ZonePanel {
   /** Lo llama el bucle en cada fotograma. */
   render(frameMs: number, now: number): void;
+  /** Lleva el foco al objeto clicable, para jugar con el teclado. */
+  focus(): void;
   dispose(): void;
 }
 
@@ -196,6 +199,11 @@ export function mountZonePanel(host: HTMLElement, game: Game): ZonePanel {
     banner(ES.boss.mechanic[mechanic], 'zone-banner--bad');
   });
 
+  // Un logro se canta en el cartel: es lo que mira el jugador al clicar.
+  const offAchievement = game.events.on('achievement:unlocked', ({ achievementId }) => {
+    banner(ES.achievements.unlocked(getAchievement(achievementId).name), 'zone-banner--good');
+  });
+
   const offClick = game.events.on('click:resolved', ({ coinsGained, xpGained, x, y }) => {
     scene.punch(x, y);
     floatText(x, y - 6, `+${format(coinsGained)}`);
@@ -333,6 +341,9 @@ export function mountZonePanel(host: HTMLElement, game: Game): ZonePanel {
   renderZone(game.getState());
 
   return {
+    focus() {
+      canvasElement.focus();
+    },
     render(frameMs, now) {
       scene.setEncounter(canvasEncounter(game.getState()), now);
       autoClicks(frameMs);
@@ -355,6 +366,7 @@ export function mountZonePanel(host: HTMLElement, game: Game): ZonePanel {
       offBossChallenged();
       offBossDefeated();
       offBossMechanic();
+      offAchievement();
       canvasElement.removeEventListener('pointerdown', onPointerDown);
       canvasElement.removeEventListener('keydown', onKeyDown);
       scene.dispose();

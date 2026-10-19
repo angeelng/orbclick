@@ -3,10 +3,18 @@
  * `core/` no debe contener ninguna constante de balance.
  */
 export const BALANCE = {
-  /** Nivel de entrenador: XP(n) = base · growth^(n-1) para pasar de n a n+1. */
+  /**
+   * Nivel de entrenador: XP(n) = base · growth^(n-1) para pasar de n a n+1.
+   *
+   * Ajuste de la fase 7 con `npm run balance:curve`: con la curva de arranque
+   * (100 · 1,5^n) un jugador de cuatro clics por segundo se ventilaba los
+   * quince niveles en media hora, antes de ver funcionar el Rancho. Con
+   * 240 · 1,58^n el MVP dura unas tres horas y media de juego activo y unas
+   * doce de juego tranquilo, que es donde la producción pasiva se nota.
+   */
   trainer: {
-    xpBase: 100,
-    xpGrowth: 1.5,
+    xpBase: 240,
+    xpGrowth: 1.58,
     maxLevel: 15,
   },
 
@@ -220,6 +228,15 @@ export const BALANCE = {
     battleRarityStep: 2,
     victoryXpShare: 0.8,
     victoryCoinsPerHp: 1.5,
+  },
+
+  /**
+   * Logros (GDD · Progresión, tienda, logros y offline). Cada logro suma un
+   * +1 % de producción global permanente, que entra en el término `global` de
+   * la fórmula del clic y por tanto también en las monedas del Rancho.
+   */
+  achievements: {
+    globalBonus: 0.01,
   },
 
   /** Bayas de la tienda (GDD · nivel 2). */

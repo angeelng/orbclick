@@ -1061,6 +1061,222 @@
   justify-content: flex-end;
 }
 
+/* ---------------- Teclas ---------------- */
+
+.shortcut-list {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-1);
+  margin: var(--space-3) 0 var(--space-4);
+}
+
+.shortcut-row {
+  display: grid;
+  grid-template-columns: 104px 1fr;
+  gap: var(--space-3);
+  align-items: center;
+  padding: 6px var(--space-2);
+  border-radius: var(--radius-s);
+}
+
+.shortcut-row:nth-child(odd) {
+  background: var(--color-panel-raised);
+}
+
+.shortcut-row dt,
+.shortcut-row dd {
+  margin: 0;
+}
+
+.shortcut-row dd {
+  color: var(--color-text-soft);
+  font-size: 13px;
+}
+
+kbd {
+  display: inline-block;
+  padding: 2px 8px;
+  border: 1px solid var(--color-border-strong);
+  border-bottom-width: 2px;
+  border-radius: var(--radius-s);
+  background: var(--color-panel);
+  color: var(--color-text);
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* ---------------- Sonido ---------------- */
+
+.audio-controls {
+  display: flex;
+  gap: var(--space-2);
+  align-items: center;
+}
+
+.audio-toggle {
+  min-width: 34px;
+  justify-content: center;
+}
+
+.audio-icon {
+  font-size: 13px;
+  line-height: 1;
+}
+
+.audio-controls--muted .audio-icon {
+  color: var(--color-text-muted);
+}
+
+/* Deslizador propio: la pastilla del acento sobre un carril de 4 px. */
+.audio-slider {
+  width: 76px;
+  height: 18px;
+  margin: 0;
+  background: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+.audio-slider::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--color-surface-3);
+}
+
+.audio-slider::-moz-range-track {
+  height: 4px;
+  border-radius: 999px;
+  background: var(--color-surface-3);
+}
+
+.audio-slider::-webkit-slider-thumb {
+  width: 12px;
+  height: 12px;
+  margin-top: -4px;
+  border: none;
+  border-radius: 999px;
+  background: var(--color-accent);
+  appearance: none;
+}
+
+.audio-slider::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  border: none;
+  border-radius: 999px;
+  background: var(--color-accent);
+}
+
+.audio-slider:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* ---------------- Logros ---------------- */
+
+/* La lista de logros es ancha y alta: necesita su propio diálogo. */
+.dialog--wide {
+  width: min(760px, 94vw);
+  max-height: 86dvh;
+  overflow-y: auto;
+}
+
+.dialog-head {
+  display: flex;
+  gap: var(--space-3);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.achievements-button {
+  gap: 6px;
+}
+
+.achievements-count {
+  padding: 1px 7px;
+  border-radius: 999px;
+  background: var(--color-accent-soft);
+  color: var(--color-accent);
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.achievement-groups {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  margin: var(--space-3) 0 var(--space-4);
+}
+
+.achievement-group-title {
+  margin-bottom: var(--space-2);
+  color: var(--color-text-soft);
+  font-size: 13px;
+  text-transform: none;
+}
+
+.achievement-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: var(--space-2);
+}
+
+.achievement {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: var(--space-3);
+  border: var(--border);
+  border-radius: var(--radius);
+  background: var(--color-panel-raised);
+}
+
+.achievement--done {
+  border-color: color-mix(in srgb, var(--color-success) 42%, transparent);
+  background: color-mix(in srgb, var(--color-success) 10%, var(--color-panel));
+}
+
+.achievement-head {
+  display: flex;
+  gap: var(--space-2);
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.achievement-name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.achievement-state {
+  color: var(--color-text-muted);
+  font-size: 11.5px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.achievement--done .achievement-state {
+  color: var(--color-success);
+}
+
+.achievement-desc {
+  margin: 0;
+  color: var(--color-text-muted);
+  font-size: 12px;
+  line-height: 1.45;
+}
+
+.track--achievement {
+  height: 5px;
+}
+
+.achievement--done .track--achievement > i {
+  background: var(--color-success);
+}
+
 .sheet-head {
   display: flex;
   gap: var(--space-4);
@@ -1110,28 +1326,158 @@
 
 /* ---------------- Móvil ---------------- */
 
+/*
+ * Pestañas inferiores: en escritorio no existen. Por debajo de 1024 px pasan a
+ * ser la navegación del juego y las columnas se enseñan de una en una, que es
+ * lo que pide el GDD para móvil.
+ */
+.bottom-tabs {
+  display: none;
+}
+
 @media (max-width: 1023px) {
   .app {
     height: auto;
     min-height: 100dvh;
+    grid-template-rows: auto 1fr auto;
   }
 
   .columns {
     grid-template-columns: 1fr;
+  }
+
+  /* Solo la sección elegida ocupa sitio; las otras ni se maquetan. */
+  .columns > .column {
+    display: none;
+  }
+
+  .columns > .column.column--active {
+    display: flex;
+  }
+
+  .bottom-tabs {
+    display: grid;
+    position: sticky;
+    bottom: 0;
+    z-index: 5;
+    grid-auto-columns: 1fr;
+    grid-auto-flow: column;
+    gap: var(--space-1);
+    padding: 6px;
+    border: var(--border);
+    border-radius: var(--radius-l);
+    background: var(--color-panel);
+    box-shadow: var(--shadow-2);
+  }
+
+  .bottom-tab {
+    position: relative;
+    display: grid;
+    place-items: center;
+    min-height: 42px;
+    padding: 6px 4px;
+    border-radius: var(--radius);
+    color: var(--color-text-soft);
+    font-family: var(--font-display);
+    font-size: 13.5px;
+    font-weight: 600;
+  }
+
+  .bottom-tab--active {
+    background: var(--color-accent-soft);
+    color: var(--color-accent);
+  }
+
+  /* Punto de aviso: algo ha pasado en una sección que no se está mirando. */
+  .bottom-tab-dot {
+    position: absolute;
+    top: 7px;
+    right: 50%;
+    width: 6px;
+    height: 6px;
+    margin-right: -30px;
+    border-radius: 999px;
+    background: var(--color-danger);
+    opacity: 0;
+    transition: opacity 160ms ease;
+  }
+
+  .bottom-tab--alert .bottom-tab-dot {
+    opacity: 1;
   }
 }
 
 @media (max-width: 560px) {
   .app {
     padding: var(--space-2);
+    gap: var(--space-2);
   }
 
   .columns {
     padding: var(--space-2);
+    border-radius: var(--radius-l);
+  }
+
+  .column {
+    padding: var(--space-3);
+  }
+
+  .topbar {
+    padding: var(--space-2) var(--space-3);
+    gap: var(--space-2) var(--space-3);
   }
 
   .topbar-separator {
     display: none;
+  }
+
+  /* El HUD se reordena: marca y recursos arriba, botones debajo a lo ancho. */
+  .topbar-stats {
+    gap: var(--space-2) var(--space-4);
+  }
+
+  .topbar-aside {
+    flex: 1 1 100%;
+  }
+
+  .topbar-hint {
+    display: none;
+  }
+
+  .save-menu {
+    flex-wrap: wrap;
+  }
+
+  .stat-value {
+    font-size: 15px;
+  }
+
+  .stat--level {
+    flex: 1 1 100%;
+  }
+
+  /* Los diálogos pasan a ocupar la pantalla: en un móvil no hay sitio para menos. */
+  .dialog,
+  .dialog--wide {
+    width: calc(100vw - var(--space-4));
+    max-height: 88dvh;
+  }
+
+  .achievement-list {
+    grid-template-columns: 1fr;
+  }
+
+  /* Dedos, no ratón: todo lo que se pulsa pasa de los 40 px de alto. */
+  .shop-buy,
+  .orb-button,
+  .button,
+  .zone-tab,
+  .tab {
+    min-height: 40px;
+  }
+
+  .creature-grid {
+    grid-template-columns: repeat(auto-fill, minmax(96px, 1fr));
   }
 }
 

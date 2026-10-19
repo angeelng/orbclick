@@ -10,10 +10,31 @@ import {
 import { createInitialState } from '../src/core/state';
 
 describe('xpForNextLevel', () => {
-  it('sigue la curva XP(n) = 100 · 1,5^(n-1)', () => {
-    expect(xpForNextLevel(1)).toBe(100);
-    expect(xpForNextLevel(2)).toBe(150);
-    expect(xpForNextLevel(3)).toBe(225);
+  it('sigue la curva XP(n) = base · growth^(n-1)', () => {
+    const { xpBase, xpGrowth } = BALANCE.trainer;
+    expect(xpForNextLevel(1)).toBe(xpBase);
+    expect(xpForNextLevel(2)).toBe(Math.round(xpBase * xpGrowth));
+    expect(xpForNextLevel(3)).toBe(Math.round(xpBase * xpGrowth ** 2));
+  });
+
+  it('cada nivel pide más XP que el anterior', () => {
+    for (let level = 1; level < BALANCE.trainer.maxLevel - 1; level += 1) {
+      expect(xpForNextLevel(level + 1)).toBeGreaterThan(xpForNextLevel(level));
+    }
+  });
+
+  /*
+   * Guarda del ajuste de la fase 7: la XP total del MVP sale de simular la
+   * curva con `npm run balance:curve` (unas tres horas y media de juego
+   * activo). Si alguien mueve `xpBase` o `xpGrowth` sin querer, esto salta.
+   */
+  it('la XP total del MVP se queda en la banda ajustada en la fase 7', () => {
+    let total = 0;
+    for (let level = 1; level < BALANCE.trainer.maxLevel; level += 1) {
+      total += xpForNextLevel(level);
+    }
+    expect(total).toBeGreaterThan(200_000);
+    expect(total).toBeLessThan(350_000);
   });
 
   it('es infinita al nivel máximo: no hay nivel siguiente', () => {
@@ -28,13 +49,14 @@ describe('grantTrainerXp', () => {
   });
 
   it('sube de nivel y conserva el resto', () => {
-    const result = grantTrainerXp({ level: 1, xp: 90 }, 20);
+    const needed = xpForNextLevel(1);
+    const result = grantTrainerXp({ level: 1, xp: needed - 10 }, 20);
     expect(result.trainer).toEqual({ level: 2, xp: 10 });
     expect(result.levelsGained).toBe(1);
   });
 
   it('resuelve varias subidas de golpe', () => {
-    const result = grantTrainerXp({ level: 1, xp: 0 }, 100 + 150 + 10);
+    const result = grantTrainerXp({ level: 1, xp: 0 }, xpForNextLevel(1) + xpForNextLevel(2) + 10);
     expect(result.trainer).toEqual({ level: 3, xp: 10 });
     expect(result.levelsGained).toBe(2);
   });
@@ -61,9 +83,10 @@ describe('grantTrainerXp', () => {
 
 describe('levelProgress', () => {
   it('va de 0 a 1 dentro del nivel', () => {
+    const needed = xpForNextLevel(1);
     expect(levelProgress({ level: 1, xp: 0 })).toBe(0);
-    expect(levelProgress({ level: 1, xp: 50 })).toBe(0.5);
-    expect(levelProgress({ level: 1, xp: 100 })).toBe(1);
+    expect(levelProgress({ level: 1, xp: needed / 2 })).toBe(0.5);
+    expect(levelProgress({ level: 1, xp: needed })).toBe(1);
   });
 
   it('está completo al nivel máximo', () => {

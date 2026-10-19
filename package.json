@@ -12,7 +12,8 @@
     "test:watch": "vitest",
     "lint": "eslint . && prettier --check .",
     "format": "prettier --write .",
-    "progress:metrics": "tsx scripts/progress-metrics.ts"
+    "progress:metrics": "tsx scripts/progress-metrics.ts",
+    "balance:curve": "tsx scripts/balance-curve.ts"
   },
   "devDependencies": {
     "@eslint/js": "^9.37.0",

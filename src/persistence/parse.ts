@@ -9,6 +9,7 @@ import {
   type UpgradeCounts,
   type WildEncounter,
 } from '../core/state';
+import { isAchievementId, type AchievementId } from '../data/achievements';
 import { BALANCE } from '../data/balance';
 import { isUpgradeId } from '../data/items';
 import { isOrbId } from '../data/orbs';
@@ -67,6 +68,12 @@ function parseBosses(raw: unknown, now: number): GameState['bosses'] {
     };
   }
   return bosses;
+}
+
+/** Solo entran logros conocidos y sin repetir; lo demás se descarta. */
+function parseAchievements(raw: unknown): readonly AchievementId[] {
+  if (!Array.isArray(raw)) return [];
+  return [...new Set(raw.filter(isAchievementId))];
 }
 
 /** Se queda solo con las mejoras conocidas y con cantidades enteras positivas. */
@@ -222,6 +229,7 @@ function parseState(raw: unknown, fallback: GameState, now: number): GameState {
     activeZoneId: isZoneId(raw['activeZoneId']) ? raw['activeZoneId'] : STARTING_ZONE_ID,
     unlockedZoneIds: unlocked.length > 0 ? unlocked : [STARTING_ZONE_ID],
     bosses: parseBosses(raw['bosses'], now),
+    achievements: parseAchievements(raw['achievements']),
     rngSeed: num(raw['rngSeed'], fallback.rngSeed) >>> 0,
   };
 }

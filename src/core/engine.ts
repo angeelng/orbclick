@@ -35,12 +35,14 @@ import {
   type RanchGains,
 } from './ranch';
 import { advanceBattle, type BattleOutcome } from './combat';
+import { refreshAchievements } from './achievements';
 import {
   grantTrainerXp,
   isUpgradeUnlocked,
   isZoneUnlocked,
   refreshZoneUnlocks,
 } from './progression';
+import type { AchievementId } from '../data/achievements';
 import { getUpgrade, type UpgradeId } from '../data/items';
 import { BALANCE } from '../data/balance';
 import { getOrb, type OrbId } from '../data/orbs';
@@ -428,6 +430,8 @@ export interface TickResult {
   readonly bossDefeatedZoneId: ZoneId | null;
   /** Mecánicas de jefe que han saltado en este tick. */
   readonly bossMechanics: readonly BossMechanicId[];
+  /** Logros conseguidos en este tick, para poder celebrarlos. */
+  readonly unlockedAchievementIds: readonly AchievementId[];
 }
 
 /**
@@ -536,6 +540,14 @@ export function tick(state: GameState, now: number, rng: Rng): TickResult {
     (zoneId) => !state.unlockedZoneIds.includes(zoneId),
   );
 
+  /*
+   * Los logros se revisan al final, con el estado del tick ya cerrado: así
+   * valen igual los clics, las capturas, el nivel y lo que haya producido el
+   * Rancho sin que cada acción tenga que acordarse de comprobarlos.
+   */
+  const achievements = refreshAchievements(next);
+  next = achievements.state;
+
   if (now > next.lastSeenAt) next = { ...next, lastSeenAt: now };
 
   return {
@@ -549,5 +561,6 @@ export function tick(state: GameState, now: number, rng: Rng): TickResult {
     unlockedZoneIds,
     bossDefeatedZoneId,
     bossMechanics,
+    unlockedAchievementIds: achievements.unlocked,
   };
 }

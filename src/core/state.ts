@@ -1,3 +1,4 @@
+import type { AchievementId } from '../data/achievements';
 import { BALANCE } from '../data/balance';
 import type { UpgradeId } from '../data/items';
 import type { OrbId } from '../data/orbs';
@@ -142,6 +143,8 @@ export interface GameState {
   readonly unlockedZoneIds: readonly ZoneId[];
   /** Jefes vencidos y su enfriamiento, por zona. */
   readonly bosses: Readonly<Partial<Record<ZoneId, BossProgress>>>;
+  /** Logros conseguidos; cada uno suma un +1 % de producción global (GDD). */
+  readonly achievements: readonly AchievementId[];
   /** Semilla del PRNG, para que la secuencia sobreviva al guardado. */
   readonly rngSeed: number;
 }
@@ -174,6 +177,7 @@ export function createInitialState(now: number, seed: number): GameState {
     activeZoneId: STARTING_ZONE_ID,
     unlockedZoneIds: [STARTING_ZONE_ID],
     bosses: {},
+    achievements: [],
     rngSeed: seed >>> 0,
   };
 }

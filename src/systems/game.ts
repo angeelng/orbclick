@@ -182,25 +182,37 @@ export function createGame(options: GameOptions): Game {
 
     buyOrbs(orbId, amount = 1) {
       const result = buyOrbs(state, orbId, amount, clock());
-      if (result.bought) commit(result.state);
+      if (result.bought) {
+        commit(result.state);
+        events.emit('shop:bought', { state: result.state, what: 'orbs', spent: result.spent });
+      }
       return result;
     },
 
     buyBerries(amount = 1) {
       const result = buyBerries(state, amount, clock());
-      if (result.bought) commit(result.state);
+      if (result.bought) {
+        commit(result.state);
+        events.emit('shop:bought', { state: result.state, what: 'berries', spent: result.spent });
+      }
       return result;
     },
 
     buyRanchSlot() {
       const result = buyRanchSlot(state, clock());
-      if (result.bought) commit(result.state);
+      if (result.bought) {
+        commit(result.state);
+        events.emit('shop:bought', { state: result.state, what: 'slot', spent: result.spent });
+      }
       return result;
     },
 
     buyPostUpgrade(postId) {
       const result = buyPostUpgrade(state, postId, clock());
-      if (result.bought) commit(result.state);
+      if (result.bought) {
+        commit(result.state);
+        events.emit('shop:bought', { state: result.state, what: 'post', spent: result.spent });
+      }
       return result;
     },
 
@@ -324,6 +336,9 @@ export function createGame(options: GameOptions): Game {
       }
       for (const mechanic of result.bossMechanics) {
         events.emit('boss:mechanic', { state: result.state, mechanic });
+      }
+      for (const achievementId of result.unlockedAchievementIds) {
+        events.emit('achievement:unlocked', { state: result.state, achievementId });
       }
       if (result.battleReward !== null && result.battleReward.levelsGained > 0) {
         events.emit('trainer:levelup', { level: result.state.trainer.level });

@@ -111,6 +111,19 @@ export const MIGRATIONS: readonly Migration[] = [
       };
     },
   },
+  {
+    // v7 → v8 (fase 7): los logros se apuntan en la partida.
+    from: 7,
+    migrate: (save: RawSave): RawSave => {
+      const state = isRecord(save['state']) ? save['state'] : {};
+      /*
+       * Una partida antigua empieza sin ningún logro apuntado, pero los que ya
+       * cumpla se le conceden en el primer tick: `refreshAchievements` mira el
+       * estado, no el historial.
+       */
+      return { ...save, state: { ...state, achievements: state['achievements'] ?? [] } };
+    },
+  },
 ];
 
 export class SaveTooNewError extends Error {

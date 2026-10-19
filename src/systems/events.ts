@@ -1,3 +1,4 @@
+import type { AchievementId } from '../data/achievements';
 import type { GameState } from '../core/state';
 import type { UpgradeId } from '../data/items';
 import type { OrbId } from '../data/orbs';
@@ -23,6 +24,15 @@ export interface GameEventMap {
     state: GameState;
     upgradeId: UpgradeId;
     quantity: number;
+    spent: number;
+  };
+  /**
+   * Compra que no es una mejora de clic: orbes, bayas, plazas o puestos. Las
+   * mejoras tienen su propio evento porque la tienda las repinta una a una.
+   */
+  'shop:bought': {
+    state: GameState;
+    what: 'orbs' | 'berries' | 'slot' | 'post';
     spent: number;
   };
   'game:imported': { state: GameState };
@@ -64,6 +74,8 @@ export interface GameEventMap {
     creature: CapturedCreature | null;
     xpGained: number;
   };
+  /** Logro recién conseguido: suma su +1 % y se celebra en pantalla. */
+  'achievement:unlocked': { state: GameState; achievementId: AchievementId };
   'game:saved': { at: number };
   'game:loaded': {
     state: GameState;

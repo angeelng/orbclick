@@ -47,7 +47,10 @@ export function mountRanchPanel(host: HTMLElement, game: Game): RanchPanel {
   stage.append(canvasElement);
 
   const tabs = element('div', { className: 'tabs', attrs: { role: 'tablist' } });
-  const body = element('div', { className: 'ranch-body' });
+  const body = element('div', {
+    className: 'ranch-body',
+    attrs: { id: 'ranch-body', role: 'tabpanel', 'aria-label': ES.ranch.title },
+  });
   const dialog = element('dialog', { className: 'dialog' });
 
   host.replaceChildren(title, stage, tabs, body, dialog);
@@ -62,7 +65,7 @@ export function mountRanchPanel(host: HTMLElement, game: Game): RanchPanel {
     const button = element('button', {
       className: 'tab',
       text: ES.ranch.tabs[tab],
-      attrs: { type: 'button', role: 'tab' },
+      attrs: { type: 'button', role: 'tab', 'aria-controls': 'ranch-body' },
     });
     button.addEventListener('click', () => {
       activeTab = tab;
@@ -78,6 +81,7 @@ export function mountRanchPanel(host: HTMLElement, game: Game): RanchPanel {
       const selected = tab === activeTab;
       button.classList.toggle('tab--active', selected);
       button.setAttribute('aria-selected', String(selected));
+      button.tabIndex = selected ? 0 : -1;
     }
   };
 

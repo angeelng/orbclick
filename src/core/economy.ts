@@ -1,5 +1,6 @@
 import { BALANCE } from '../data/balance';
 import { UPGRADE_LIST, type UpgradeDefinition, type UpgradeId } from '../data/items';
+import { achievementGlobalBonus } from './achievements';
 import { ranchProduction } from './ranch';
 import type { GameState, UpgradeCounts } from './state';
 
@@ -56,8 +57,9 @@ export function format(value: number): string {
 /**
  * Fuentes de bonus del clic (GDD):
  * `M_clic = (1 + plano) · mult · (1 + minería) · (1 + global)`.
- * En la fase 1 todas son neutras; las mejoras llegan en la fase 2, el Rancho
- * en la 4 y los logros en la 7.
+ * El plano sale de los guantes, la minería del Rancho y el global de los
+ * logros, que por eso suben también lo que produce el Rancho: sus monedas se
+ * calculan con las monedas por clic.
  */
 export interface ClickBonuses {
   readonly flat: number;
@@ -91,8 +93,12 @@ export function clickBonuses(state: GameState): ClickBonuses {
   for (const upgrade of UPGRADE_LIST) {
     flat += upgrade.flatBonus * ownedCount(state.upgrades, upgrade.id);
   }
-  // El bonus global de los logros llega en la fase 7.
-  return { ...NEUTRAL_CLICK_BONUSES, flat, mining: ranchProduction(state).miningBonus };
+  return {
+    ...NEUTRAL_CLICK_BONUSES,
+    flat,
+    mining: ranchProduction(state).miningBonus,
+    global: achievementGlobalBonus(state),
+  };
 }
 
 /** Precio de la siguiente unidad: base · 1,15^cantidad (GDD). */

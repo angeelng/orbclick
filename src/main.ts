@@ -2,9 +2,15 @@ import './styles/base.css';
 import './styles/layout.css';
 
 import { LocalSaveRepository } from './persistence/localSaveRepository';
+import { connectAudio, createAudio } from './systems/audio';
 import { createLoop } from './systems/loop';
 import { createGame } from './systems/game';
 import { element, mustFind } from './ui/dom';
+import { mountAchievementsPanel } from './ui/achievementsPanel';
+import { mountAudioControls } from './ui/audioControls';
+import { mountAnnouncer } from './ui/announcer';
+import { mountMobileTabs } from './ui/mobileTabs';
+import { mountShortcuts } from './ui/shortcuts';
 import { mountOfflineSummary } from './ui/offlineSummary';
 import { mountRanchPanel } from './ui/ranchPanel';
 import { mountBattlePanel } from './ui/battlePanel';
@@ -27,11 +33,20 @@ const clock = (): number => Date.now();
 const repository = new LocalSaveRepository({ now: clock, fallbackSeed: freshSeed });
 const game = createGame({ repository, clock, seed: freshSeed });
 
+// El sonido reacciona a los eventos del juego; la interfaz solo lo ajusta.
+const audio = createAudio();
+connectAudio(game, audio);
+
 const topbar = mustFind('topbar');
 mountTopbar(topbar, game);
 mountSaveMenu(topbar, game);
-mountThemeToggle(topbar.querySelector('.save-menu') ?? topbar);
+const topbarMenu = topbar.querySelector<HTMLElement>('.save-menu') ?? topbar;
+const achievements = mountAchievementsPanel(topbarMenu, game);
+mountAudioControls(topbarMenu, audio);
+const theme = mountThemeToggle(topbarMenu);
 const zoneColumn = mustFind('zone-column');
+const ranchColumn = mustFind('ranch-column');
+const shopColumn = mustFind('shop-column');
 const zonePanel = mountZonePanel(zoneColumn, game);
 
 /*
@@ -43,9 +58,28 @@ const zoneBody = element('div', { className: 'column-body' });
 zoneColumn.append(zoneBody);
 const encounterPanel = mountEncounterPanel(zoneBody, game);
 const battlePanel = mountBattlePanel(zoneBody, game);
-const ranchPanel = mountRanchPanel(mustFind('ranch-column'), game);
+const ranchPanel = mountRanchPanel(ranchColumn, game);
 mountOfflineSummary(document.body, game);
-mountShopPanel(mustFind('shop-column'), game);
+mountShopPanel(shopColumn, game);
+
+// En móvil solo se ve una columna a la vez; las pestañas de abajo la eligen.
+mountMobileTabs(mustFind('bottom-tabs'), game, {
+  columns: { zone: zoneColumn, ranch: ranchColumn, shop: shopColumn },
+});
+
+// Teclado y lector de pantalla: el ratón no puede ser la única entrada.
+mountShortcuts(topbarMenu, game, audio, {
+  openAchievements: () => {
+    achievements.open();
+  },
+  toggleTheme: () => {
+    theme.toggle();
+  },
+  focusZone: () => {
+    zonePanel.focus();
+  },
+});
+mountAnnouncer(document.body, game);
 
 const loop = createLoop({
   onTick: () => {

@@ -1,7 +1,7 @@
 /*
- * Maqueta «Pastel moderno»: HUD separado arriba y tres paneles sobre un
- * lienzo teñido. Los paneles son tarjetas blancas con línea de 1 px y sombra
- * difusa; el pixel art se queda dentro de sus marcos redondeados.
+ * Maqueta «Pergamino y roble»: HUD en un tablón de madera y tres paneles de
+ * pergamino sobre la mesa. Los marcos llevan filete dorado y el pixel art se
+ * cuelga dentro como un cuadro enmarcado.
  */
 .app {
   display: grid;
@@ -10,7 +10,8 @@
   height: 100vh;
   height: 100dvh;
   padding: var(--space-4);
-  background: var(--color-bg);
+  background: var(--texture-wood);
+  background-color: var(--color-bg);
 }
 
 /* ---------------- HUD ---------------- */
@@ -20,11 +21,16 @@
   flex-wrap: wrap;
   gap: var(--space-3) var(--space-5);
   align-items: center;
-  padding: var(--space-3) var(--space-4);
-  border: var(--border);
+  padding: var(--space-3) var(--space-5);
+  border: 2px solid var(--color-wood-deep);
   border-radius: var(--radius-l);
-  background: var(--color-panel);
-  box-shadow: var(--shadow-1);
+  background: var(--texture-wood);
+  background-color: var(--color-wood);
+  color: var(--color-on-wood);
+  box-shadow:
+    inset 0 0 0 2px var(--color-gold-deep),
+    inset 0 0 0 3px var(--color-gold),
+    var(--shadow-carved);
 }
 
 .topbar-brand {
@@ -32,19 +38,25 @@
   flex: 0 0 auto;
   gap: var(--space-2);
   align-items: center;
+  color: var(--color-gold-bright);
   font-family: var(--font-display);
-  font-size: 15px;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-shadow: 0 2px 0 rgb(0 0 0 / 45%);
 }
 
 .topbar-mark {
   display: grid;
   place-items: center;
-  width: 32px;
-  height: 32px;
-  border-radius: 10px;
-  background: var(--color-accent-soft);
+  width: 34px;
+  height: 34px;
+  border: 2px solid var(--color-gold);
+  border-radius: 50%;
+  background:
+    radial-gradient(circle at 34% 28%, rgb(255 240 200 / 32%), transparent 62%),
+    var(--color-wood-deep);
+  box-shadow: 0 2px 4px rgb(0 0 0 / 45%);
 }
 
 .topbar-stats {
@@ -61,6 +73,13 @@
   display: flex;
   gap: var(--space-2);
   align-items: center;
+  padding: 3px var(--space-3) 3px 3px;
+  border: 1px solid var(--color-gold-deep);
+  border-radius: var(--radius-pill);
+  background: rgb(0 0 0 / 20%);
+  box-shadow:
+    inset 0 1px 3px rgb(0 0 0 / 45%),
+    0 1px 0 rgb(255 226 170 / 12%);
 }
 
 .stat-icon {
@@ -69,7 +88,8 @@
   place-items: center;
   width: 30px;
   height: 30px;
-  border-radius: 9px;
+  border: 1px solid var(--color-gold);
+  border-radius: 50%;
   background: var(--color-surface-3);
 }
 
@@ -87,11 +107,11 @@
 }
 
 .stat--berries .stat-icon {
-  background: #fbeaef;
+  background: color-mix(in srgb, var(--type-plant) 26%, var(--color-panel));
 }
 
 .stat--cps .stat-icon {
-  background: #e3f5ec;
+  background: color-mix(in srgb, var(--color-coins) 26%, var(--color-panel));
 }
 
 .stat-text {
@@ -101,21 +121,29 @@
 }
 
 .stat-value {
+  color: var(--color-on-wood);
   font-family: var(--font-display);
-  font-size: 17px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
 }
 
 .stat-label {
-  color: var(--color-text-muted);
+  color: var(--color-on-wood-muted);
   font-size: 12px;
 }
 
 .topbar-separator {
-  width: 1px;
+  width: 2px;
   align-self: stretch;
-  background: var(--color-border);
+  border-radius: 2px;
+  background: linear-gradient(
+    180deg,
+    transparent,
+    var(--color-gold-deep) 25%,
+    var(--color-gold-deep) 75%,
+    transparent
+  );
 }
 
 /* Nivel con su barra de XP. */
@@ -140,25 +168,29 @@
   gap: var(--space-3);
   align-items: baseline;
   justify-content: space-between;
-  color: var(--color-text-muted);
+  color: var(--color-on-wood-muted);
   font-size: 13px;
 }
 
 .level-row strong {
   font-family: var(--font-display);
   font-size: 15px;
-  font-weight: 600;
-  color: var(--color-text);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-on-wood);
 }
 
 .level-row span {
   font-variant-numeric: tabular-nums;
 }
 
+/* Canal hundido con filete de latón: sirve de XP, vida y carga. */
 .track {
-  height: 7px;
-  border-radius: 999px;
-  background: var(--color-surface-3);
+  height: 10px;
+  border: 1px solid var(--color-gold-deep);
+  border-radius: var(--radius-pill);
+  background: rgb(0 0 0 / 28%);
+  box-shadow: inset 0 1px 3px rgb(0 0 0 / 50%);
   overflow: hidden;
 }
 
@@ -166,8 +198,8 @@
   display: block;
   height: 100%;
   width: 0;
-  border-radius: 999px;
-  background: linear-gradient(90deg, var(--color-accent), var(--color-danger));
+  border-radius: var(--radius-pill);
+  background: var(--gradient-brass);
   transition: width 400ms ease;
 }
 
@@ -184,7 +216,7 @@
   display: -webkit-box;
   overflow: hidden;
   max-width: 240px;
-  color: var(--color-text-muted);
+  color: var(--color-on-wood-muted);
   font-size: 12px;
   line-height: 1.3;
   -webkit-box-orient: vertical;
@@ -192,24 +224,32 @@
 }
 
 .save-state {
-  color: var(--color-text-muted);
+  color: var(--color-on-wood-muted);
   font-size: 12px;
   white-space: nowrap;
 }
 
 /* ---------------- Paneles ---------------- */
 
+/* La mesa: madera con moldura dorada por dentro. */
 .columns {
   display: grid;
   grid-template-columns: var(--layout-zone) var(--layout-ranch) var(--layout-shop);
   gap: var(--space-4);
   min-height: 0;
-  padding: var(--space-4);
-  border: var(--border);
+  padding: var(--space-5);
+  border: 2px solid var(--color-wood-deep);
   border-radius: var(--radius-xl);
-  background: var(--color-canvas);
+  background: var(--texture-wood);
+  background-color: var(--color-canvas);
+  box-shadow:
+    inset 0 0 0 2px var(--color-gold-deep),
+    inset 0 0 0 3px var(--color-gold),
+    inset 0 0 40px rgb(0 0 0 / 35%),
+    var(--shadow-carved);
 }
 
+/* Cada columna es un pliego de pergamino clavado a la mesa. */
 .column {
   display: flex;
   flex-direction: column;
@@ -217,21 +257,33 @@
   min-width: 0;
   min-height: 0;
   padding: var(--space-4);
-  border: var(--border);
+  border: 2px solid var(--color-border-strong);
   border-radius: var(--radius-l);
-  background: var(--color-panel);
-  box-shadow: var(--shadow-2);
+  background: var(--texture-parchment), var(--color-panel);
+  box-shadow:
+    inset 0 0 0 1px rgb(255 248 227 / 45%),
+    inset 0 0 34px rgb(140 101 34 / 16%),
+    var(--shadow-carved);
 }
 
+/* Rótulo tallado: versalitas doradas sobre un filete doble. */
 .column-title {
   display: flex;
   gap: var(--space-2);
   align-items: center;
   justify-content: space-between;
+  padding-bottom: var(--space-2);
+  border-bottom: 2px solid var(--color-border-strong);
+  box-shadow: 0 3px 0 -1px var(--color-border);
 }
 
 .column-title h2 {
-  font-size: 17px;
+  color: var(--color-accent);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 0 rgb(255 248 227 / 60%);
 }
 
 .column-count,
@@ -246,12 +298,13 @@
 }
 
 .column-count {
-  padding: 4px 9px;
-  border-radius: 999px;
+  padding: 3px 10px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-pill);
   background: var(--color-surface-3);
   color: var(--color-text-soft);
   font-size: 11.5px;
-  font-weight: 600;
+  font-weight: 700;
   white-space: nowrap;
 }
 
@@ -260,7 +313,7 @@
   flex: 1;
   place-items: center;
   padding: var(--space-5);
-  border: 1px dashed var(--color-border-strong);
+  border: 2px dashed var(--color-border-strong);
   border-radius: var(--radius);
   color: var(--color-text-muted);
   text-align: center;
@@ -288,16 +341,24 @@
   aspect-ratio: 16 / 10;
   min-height: 0;
   overflow: hidden;
+  border: 3px solid var(--color-wood-dark);
   border-radius: var(--radius);
   background: var(--color-surface-3);
+  box-shadow:
+    0 0 0 1px var(--color-gold-deep),
+    0 4px 10px -4px rgb(26 14 6 / 55%);
 }
 
+/* Filete interior: el oro del marco se ve por dentro del lienzo. */
 .stage::after {
   content: '';
   position: absolute;
   inset: 0;
-  border-radius: var(--radius);
-  box-shadow: inset 0 0 0 1px rgb(43 36 54 / 7%);
+  border-radius: calc(var(--radius) - 2px);
+  box-shadow:
+    inset 0 0 0 2px var(--color-gold),
+    inset 0 0 0 3px var(--color-gold-deep),
+    inset 0 0 18px rgb(26 14 6 / 35%);
   pointer-events: none;
 }
 
@@ -317,8 +378,8 @@
   position: absolute;
   font-family: var(--font-pixel);
   font-size: 20px;
-  color: #fff8e2;
-  text-shadow: 0 2px 6px rgb(20 14 30 / 55%);
+  color: #f6e6bd;
+  text-shadow: 0 2px 0 rgb(26 14 6 / 75%);
   transform: translate(-50%, -50%);
   animation: float-up var(--float-ms, 900ms) cubic-bezier(0.2, 0.7, 0.3, 1) forwards;
   will-change: transform, opacity;
@@ -326,17 +387,17 @@
 
 .floating-text--xp {
   font-size: 15px;
-  color: #e8e0ff;
+  color: #cbb7e8;
 }
 
 .floating-text--level {
   font-size: 22px;
-  color: #d6ffe9;
+  color: #aee6a8;
 }
 
 .floating-text--damage {
   font-size: 17px;
-  color: #ffd9e1;
+  color: #f0a398;
 }
 
 .floating-text--auto {
@@ -364,9 +425,10 @@
   overflow: hidden;
   max-width: calc(100% - var(--space-5));
   padding: var(--space-2) var(--space-4);
-  border-radius: 999px;
-  background: rgb(26 20 36 / 82%);
-  color: #fff8e2;
+  border: 1px solid var(--color-gold);
+  border-radius: var(--radius-s);
+  background: rgb(26 14 6 / 86%);
+  color: var(--color-gold-bright);
   font-family: var(--font-pixel);
   font-size: clamp(14px, 2.1vw, 21px);
   line-height: 1.15;
@@ -378,15 +440,15 @@
 }
 
 .zone-banner--good {
-  color: #bdf4da;
+  color: #aee6a8;
 }
 
 .zone-banner--bad {
-  color: #ffc9d5;
+  color: #f0a398;
 }
 
 .zone-banner--coins {
-  color: #ffe6b0;
+  color: #f2cc70;
 }
 
 @keyframes banner-life {
@@ -413,52 +475,66 @@
 
 /* ---------------- Botones ---------------- */
 
+/* Tablilla de pergamino con canto biselado: se hunde al pulsarla. */
 .button {
-  padding: 9px 14px;
-  border: 1px solid var(--color-border-strong);
-  border-radius: 999px;
-  background: var(--color-panel);
-  color: var(--color-text);
+  padding: 8px 15px;
+  border: 2px solid var(--color-border-strong);
+  border-radius: var(--radius);
+  background: linear-gradient(180deg, var(--color-panel), var(--color-surface-3));
+  color: var(--color-text-soft);
+  font-family: var(--font-display);
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: 0.02em;
   box-shadow: var(--shadow-1);
   transition:
     box-shadow 180ms ease,
-    border-color 180ms ease;
+    border-color 180ms ease,
+    transform 90ms ease;
 }
 
 .button:hover:not(:disabled) {
   border-color: var(--color-accent);
+  color: var(--color-text);
   box-shadow: var(--shadow-2);
+}
+
+.button:active:not(:disabled) {
+  transform: translateY(1px);
+  box-shadow: inset 0 2px 4px rgb(32 18 8 / 35%);
 }
 
 .button:disabled {
   color: var(--color-text-muted);
   cursor: not-allowed;
   box-shadow: none;
+  opacity: 0.7;
 }
 
 .button--small {
-  padding: 6px 11px;
+  padding: 5px 11px;
   font-size: 12px;
 }
 
+/* Botón de latón: el que remata una acción importante. */
 .button--accent {
-  border-color: transparent;
-  background: var(--color-accent);
-  color: #ffffff;
+  border-color: var(--color-gold-deep);
+  background: var(--gradient-brass);
+  color: var(--color-ink);
+  text-shadow: 0 1px 0 rgb(255 240 200 / 45%);
 }
 
 .button--accent:hover:not(:disabled) {
-  border-color: transparent;
-  filter: brightness(1.07);
+  border-color: var(--color-gold-deep);
+  filter: brightness(1.08);
 }
 
-/* Sin esto el texto apagado del botón deshabilitado cae sobre el acento. */
+/* Sin esto el texto apagado del botón deshabilitado cae sobre el latón. */
 .button--accent:disabled {
   border-color: var(--color-border-strong);
   background: var(--color-surface-3);
   color: var(--color-text-muted);
+  text-shadow: none;
 }
 
 .save-menu {
@@ -476,8 +552,9 @@
 .theme-dot {
   width: 9px;
   height: 9px;
+  border: 1px solid var(--color-gold-deep);
   border-radius: 50%;
-  background: var(--color-accent);
+  background: var(--color-gold);
 }
 
 /* ---------------- Aparición de salvajes ---------------- */
@@ -486,9 +563,10 @@
   display: grid;
   gap: var(--space-1);
   padding: var(--space-3);
-  border: var(--border);
+  border: 2px solid var(--color-border);
   border-radius: var(--radius);
-  background: var(--color-panel-raised);
+  background: var(--texture-parchment), var(--color-panel-raised);
+  box-shadow: inset 0 1px 0 rgb(255 248 227 / 50%);
 }
 
 .encounter--critical {
@@ -497,9 +575,12 @@
 
 .encounter-headline {
   margin: 0;
-  color: var(--color-accent);
+  color: var(--color-danger);
+  font-family: var(--font-display);
   font-size: 12px;
-  font-weight: 600;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 
 .encounter--empty .encounter-headline {
@@ -545,8 +626,10 @@
   gap: var(--space-1);
   margin-top: var(--space-1);
   padding: var(--space-1);
-  border-radius: var(--radius-l);
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius);
   background: var(--color-surface-3);
+  box-shadow: inset 0 1px 4px rgb(32 18 8 / 22%);
 }
 
 .orb-button {
@@ -566,6 +649,7 @@
 .orb-button:hover:not(:disabled) {
   background: var(--color-panel);
   box-shadow: var(--shadow-1);
+  outline: 1px solid var(--color-gold-deep);
 }
 
 .orb-button:hover:not(:disabled) .portrait {
@@ -601,48 +685,50 @@
 
 /* Etiquetas de tipo y rareza. */
 .chip {
-  padding: 4px 9px;
-  border-radius: 999px;
+  padding: 3px 9px;
+  border: 1px solid rgb(59 36 16 / 28%);
+  border-radius: var(--radius-s);
   background: var(--color-surface-3);
   color: var(--color-text-soft);
   font-size: 11.5px;
-  font-weight: 600;
+  font-weight: 700;
   white-space: nowrap;
 }
 
 .chip--plant {
   background: var(--type-plant);
-  color: #2b2436;
+  color: var(--color-ink);
 }
 
 .chip--fire {
   background: var(--type-fire);
-  color: #2b2436;
+  color: var(--color-ink);
 }
 
 .chip--water {
   background: var(--type-water);
-  color: #2b2436;
+  color: var(--color-ink);
 }
 
 .chip--rock {
   background: var(--type-rock);
-  color: #2b2436;
+  color: var(--color-ink);
 }
 
 .chip--electric {
   background: var(--type-electric);
-  color: #2b2436;
+  color: var(--color-ink);
 }
 
 .chip--air {
   background: var(--type-air);
-  color: #2b2436;
+  color: var(--color-ink);
 }
 
 .chip--shiny {
-  background: var(--color-accent-soft);
-  color: var(--color-accent);
+  border-color: var(--color-gold-deep);
+  background: var(--gradient-brass);
+  color: var(--color-ink);
 }
 
 /* ---------------- Rancho ---------------- */
@@ -676,7 +762,8 @@
   display: grid;
   gap: 5px;
   padding: var(--space-3);
-  border: var(--border);
+  border: 1px solid var(--color-border);
+  border-left: 4px solid var(--color-border-strong);
   border-radius: var(--radius);
   background: var(--color-panel-raised);
 }
@@ -696,7 +783,8 @@
 }
 
 .post-name {
-  font-size: 14px;
+  font-size: 15px;
+  letter-spacing: 0.03em;
 }
 
 .post-count {
@@ -727,7 +815,8 @@
   display: grid;
   place-items: center;
   padding: 3px;
-  border-radius: 10px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-s);
   background: var(--color-surface-3);
   transition: box-shadow 160ms ease;
 }
@@ -742,7 +831,7 @@
   gap: var(--space-1);
   align-items: center;
   padding: var(--space-3);
-  border: var(--border);
+  border: 1px solid var(--color-border);
   border-radius: var(--radius);
   background: var(--color-panel-raised);
 }
@@ -758,8 +847,9 @@
 
 .synergy {
   margin: 0;
-  padding: 5px 10px;
-  border-radius: 999px;
+  padding: 4px 10px;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-s);
   background: var(--color-accent-soft);
   color: var(--color-text-soft);
   font-size: 12px;
@@ -779,7 +869,7 @@
   gap: 2px;
   justify-items: center;
   padding: var(--space-2);
-  border: var(--border);
+  border: 2px solid var(--color-border);
   border-radius: var(--radius);
   background: var(--color-panel-raised);
   transition:
@@ -788,6 +878,7 @@
 }
 
 .creature-card:hover {
+  border-color: var(--color-gold-deep);
   box-shadow: var(--shadow-2);
   transform: translateY(-2px);
 }
@@ -815,7 +906,7 @@
   position: absolute;
   top: 4px;
   right: 6px;
-  color: var(--color-accent);
+  color: var(--color-coins);
   font-size: 11px;
 }
 
@@ -833,38 +924,50 @@
 
 /* ---------------- Tienda ---------------- */
 
+/* Lengüetas de archivo: la activa sobresale y se dora. */
 .tabs {
   display: flex;
-  gap: var(--space-4);
-  border-bottom: var(--border);
+  flex-wrap: wrap;
+  gap: var(--space-1);
+  border-bottom: 2px solid var(--color-border-strong);
 }
 
 .tab {
   position: relative;
-  padding: 0 0 10px;
+  padding: 6px 13px;
+  border: 2px solid transparent;
+  border-bottom: none;
+  border-radius: var(--radius-s) var(--radius-s) 0 0;
   color: var(--color-text-muted);
+  font-family: var(--font-display);
   font-size: 13px;
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.tab:hover:not(.tab--active) {
+  color: var(--color-text-soft);
 }
 
 .tab::after {
   content: '';
   position: absolute;
   right: 0;
-  bottom: -1px;
+  bottom: -2px;
   left: 0;
   height: 2px;
-  border-radius: 2px;
   background: transparent;
 }
 
 .tab--active {
-  color: var(--color-text);
-  font-weight: 600;
+  border-color: var(--color-border-strong);
+  background: var(--color-panel-raised);
+  color: var(--color-accent);
+  font-weight: 700;
 }
 
 .tab--active::after {
-  background: var(--color-accent);
+  background: var(--color-panel-raised);
 }
 
 .shop-body {
@@ -890,16 +993,18 @@
 }
 
 .shop-item + .shop-item {
-  border-top: var(--border);
+  border-top: 1px dashed var(--color-border);
 }
 
 .shop-item-icon {
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  border: 2px solid var(--color-border-strong);
+  border-radius: var(--radius-s);
   background: var(--color-surface-3);
+  box-shadow: inset 0 1px 3px rgb(32 18 8 / 22%);
 }
 
 .shop-item-body {
@@ -916,7 +1021,8 @@
 }
 
 .shop-item-name {
-  font-size: 14px;
+  font-size: 15px;
+  letter-spacing: 0.03em;
   line-height: 1.2;
 }
 
@@ -970,23 +1076,28 @@
   margin-top: var(--space-1);
 }
 
+/* Comprar es una moneda puesta sobre el mostrador: latón con relieve. */
 .shop-buy {
   display: inline-flex;
   gap: var(--space-2);
   align-items: center;
   justify-self: start;
   margin-top: var(--space-1);
-  padding: 9px 13px;
-  border-radius: 999px;
-  background: var(--color-accent);
-  color: #ffffff;
+  padding: 7px 13px;
+  border: 2px solid var(--color-gold-deep);
+  border-radius: var(--radius);
+  background: var(--gradient-brass);
+  color: var(--color-ink);
+  font-family: var(--font-display);
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   font-variant-numeric: tabular-nums;
+  text-shadow: 0 1px 0 rgb(255 240 200 / 45%);
   white-space: nowrap;
   transition:
     filter 160ms ease,
-    box-shadow 160ms ease;
+    box-shadow 160ms ease,
+    transform 90ms ease;
 }
 
 .shop-buy-row .shop-buy {
@@ -994,13 +1105,19 @@
 }
 
 .shop-buy:hover:not(:disabled) {
-  filter: brightness(1.07);
-  box-shadow: 0 6px 16px -8px var(--color-accent);
+  filter: brightness(1.08);
+  box-shadow: 0 5px 14px -7px rgb(26 14 6 / 80%);
+}
+
+.shop-buy:active:not(:disabled) {
+  transform: translateY(1px);
 }
 
 .shop-buy:disabled {
+  border-color: var(--color-border-strong);
   background: var(--color-surface-3);
   color: var(--color-text-muted);
+  text-shadow: none;
   cursor: not-allowed;
 }
 
@@ -1010,23 +1127,33 @@
 
 /* ---------------- Diálogos ---------------- */
 
+/*
+ * El filete va por fuera: un `inset` se desplazaría con el contenido en los
+ * diálogos que hacen scroll y el borde superior desaparecería.
+ */
 .dialog {
   width: min(520px, 92vw);
   padding: var(--space-5);
-  border: var(--border);
+  border: 3px solid var(--color-gold);
   border-radius: var(--radius-l);
-  background: var(--color-panel);
+  background: var(--texture-parchment), var(--color-panel);
   color: var(--color-text);
-  box-shadow: var(--shadow-3);
+  box-shadow:
+    0 0 0 1px var(--color-gold-deep),
+    0 0 0 4px var(--color-wood-dark),
+    var(--shadow-3);
 }
 
 .dialog::backdrop {
-  background: rgb(43 36 54 / 38%);
+  background: rgb(20 11 4 / 62%);
   backdrop-filter: blur(2px);
 }
 
 .dialog-title {
-  font-size: 19px;
+  color: var(--color-accent);
+  font-size: 20px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .dialog-hint {
@@ -1038,7 +1165,7 @@
 .dialog-field {
   width: 100%;
   padding: var(--space-3);
-  border: var(--border);
+  border: 2px solid var(--color-border-strong);
   border-radius: var(--radius);
   background: var(--color-panel-raised);
   color: var(--color-text);
@@ -1097,7 +1224,7 @@ kbd {
   display: inline-block;
   padding: 2px 8px;
   border: 1px solid var(--color-border-strong);
-  border-bottom-width: 2px;
+  border-bottom-width: 3px;
   border-radius: var(--radius-s);
   background: var(--color-panel);
   color: var(--color-text);
@@ -1195,11 +1322,12 @@ kbd {
 
 .achievements-count {
   padding: 1px 7px;
-  border-radius: 999px;
-  background: var(--color-accent-soft);
-  color: var(--color-accent);
+  border: 1px solid var(--color-gold-deep);
+  border-radius: var(--radius-s);
+  background: var(--color-coins-soft);
+  color: var(--color-text-soft);
   font-size: 11.5px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .achievement-groups {
@@ -1227,7 +1355,7 @@ kbd {
   flex-direction: column;
   gap: 6px;
   padding: var(--space-3);
-  border: var(--border);
+  border: 2px solid var(--color-border);
   border-radius: var(--radius);
   background: var(--color-panel-raised);
 }
@@ -1364,10 +1492,13 @@ kbd {
     grid-auto-flow: column;
     gap: var(--space-1);
     padding: 6px;
-    border: var(--border);
+    border: 2px solid var(--color-wood-deep);
     border-radius: var(--radius-l);
-    background: var(--color-panel);
-    box-shadow: var(--shadow-2);
+    background: var(--texture-wood);
+    background-color: var(--color-wood);
+    box-shadow:
+      inset 0 0 0 2px var(--color-gold-deep),
+      var(--shadow-carved);
   }
 
   .bottom-tab {
@@ -1376,15 +1507,18 @@ kbd {
     place-items: center;
     min-height: 42px;
     padding: 6px 4px;
-    border-radius: var(--radius);
-    color: var(--color-text-soft);
+    border: 1px solid transparent;
+    border-radius: var(--radius-s);
+    color: var(--color-on-wood-muted);
     font-family: var(--font-display);
     font-size: 13.5px;
-    font-weight: 600;
+    font-weight: 700;
+    letter-spacing: 0.04em;
   }
 
   .bottom-tab--active {
-    background: var(--color-accent-soft);
+    border-color: var(--color-gold-deep);
+    background: linear-gradient(180deg, var(--color-panel), var(--color-surface-3));
     color: var(--color-accent);
   }
 
@@ -1503,13 +1637,14 @@ kbd {
 }
 
 .zone-tab {
-  padding: 5px 12px;
-  border: 1px solid var(--color-border-strong);
-  border-radius: 999px;
+  padding: 4px 12px;
+  border: 2px solid var(--color-border-strong);
+  border-radius: var(--radius-s);
   background: var(--color-surface-3);
   color: var(--color-text-soft);
+  font-family: var(--font-display);
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
   transition:
     background 160ms ease,
     color 160ms ease,
@@ -1522,9 +1657,9 @@ kbd {
 }
 
 .zone-tab--active {
-  border-color: transparent;
-  background: var(--color-accent);
-  color: #ffffff;
+  border-color: var(--color-gold-deep);
+  background: var(--gradient-brass);
+  color: var(--color-ink);
 }
 
 /* Una zona cerrada se queda a la vista, pero con el trazo discontinuo. */
@@ -1539,7 +1674,7 @@ kbd {
 }
 
 .zone-tab--active:disabled {
-  color: #ffffff;
+  color: var(--color-ink);
 }
 
 /* ---------------- Jefes ---------------- */
@@ -1548,16 +1683,18 @@ kbd {
   display: grid;
   gap: 8px;
   padding: var(--space-2) var(--space-3) var(--space-3);
-  border: var(--border);
+  border: 2px solid var(--color-border-strong);
   border-radius: var(--radius);
-  background: var(--color-panel);
+  background: var(--texture-parchment), var(--color-panel);
 }
 
 .boss-title {
   color: var(--color-text-muted);
+  font-family: var(--font-display);
   font-size: 11.5px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
 }
 
 .boss-head {
@@ -1585,19 +1722,19 @@ kbd {
 }
 
 .boss-mechanic {
-  color: var(--color-accent);
+  color: var(--color-danger);
   font-size: 11.5px;
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .boss-challenge {
   justify-self: start;
 }
 
-/* Jefe ya vencido: verde de éxito, en pastilla discreta. */
+/* Jefe ya vencido: verde de éxito, en tablilla discreta. */
 .chip--done {
   background: var(--color-success);
-  color: #2b2436;
+  color: var(--color-ink);
 }
 
 /* ---------------- Combate ---------------- */
@@ -1606,13 +1743,13 @@ kbd {
   display: grid;
   gap: var(--space-2);
   padding: var(--space-3);
-  border: var(--border);
+  border: 2px solid var(--color-border);
   border-radius: var(--radius);
-  background: var(--color-panel-raised);
+  background: var(--texture-parchment), var(--color-panel-raised);
 }
 
 .battle--fighting {
-  border-color: var(--color-accent);
+  border-color: var(--color-danger);
 }
 
 .battle-challenge {
@@ -1627,7 +1764,7 @@ kbd {
   gap: var(--space-3);
   align-items: center;
   padding-bottom: var(--space-2);
-  border-bottom: var(--border);
+  border-bottom: 1px dashed var(--color-border-strong);
 }
 
 .battle-enemy-side {
@@ -1668,7 +1805,7 @@ kbd {
   display: grid;
   gap: 4px;
   padding: var(--space-2);
-  border: var(--border);
+  border: 1px solid var(--color-border-strong);
   border-radius: var(--radius);
   background: var(--color-panel);
 }
@@ -1694,7 +1831,7 @@ kbd {
 }
 
 .track--charge > i {
-  background: linear-gradient(90deg, var(--color-coins), var(--color-accent));
+  background: linear-gradient(180deg, var(--color-gold-bright), var(--color-accent));
 }
 
 .battler-actions {

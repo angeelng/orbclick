@@ -77,15 +77,17 @@ docs/GDD.md
 
 ## Dirección visual
 
-**Pastel moderno**: pixel art dentro del lienzo, interfaz clara y actual alrededor. Nada de marcos de consola.
+**Pergamino y roble**: pixel art dentro del lienzo, taberna medieval alrededor — tableros de madera, molduras doradas, pliegos de pergamino y tinta sepia. Nada de marcos de consola ni de pastel moderno.
 
-- Paleta clara (variables CSS en `styles/tokens.css`): fondo `#F6F3FA`, lienzo `#EFEAF7`, superficie `#FFFFFF`, hairline `#ECE5F4`, texto `#2B2436`, secundario `#594E6B`, apagado `#847A96`, acento `#8777E5`, monedas `#D9A33F`, éxito `#45B88A`, alerta `#E87F96`.
-- **Variante oscura** en el mismo archivo (fondo `#141120`, superficie `#1E1A2C`, acento `#A596F2`): entra con la preferencia del sistema y con el conmutador de la barra superior. Cualquier color nuevo se define en las dos.
-- Tipos: Planta `#8FC47E`, Fuego `#E98F5F`, Agua `#74AEDC`, Roca `#BCA383`, Eléctrico `#D9BF52`, Aire `#9EC2D6`.
-- Formas: radios 8/12/18/24 px, pastillas de 999 px para recursos y botones, sombras difusas en tres niveles. Nunca bordes gruesos ni sombras duras.
-- Layout de escritorio: HUD como tarjeta propia + tres tarjetas blancas sobre lienzo teñido (zona · Rancho · tienda). En móvil se apilan; las pestañas inferiores llegan en la fase 7.
-- Canvas lógicos de referencia: zona 160×160, Rancho 256×160; escalado entero y el búfer estirado hasta llenar su caja.
-- Fuentes: **Outfit** (títulos, nombres y cifras), **Plus Jakarta Sans** (interfaz y texto corrido) y **Pixelify Sans solo dentro del arte** (números flotantes y cartel de la zona).
+- Paleta clara (variables CSS en `styles/tokens.css`): fondo madera `#4A2D16`, mesa `#6B4423`, pergamino `#F4E4C1`, pergamino hundido `#ECD6AB`/`#E0C593`, filete `#C9A469`, canto `#A97B43`, tinta `#3B2410`, secundario `#5E3E22`, apagado `#8A6A46`, acento `#9C5F22`, monedas `#B8862F`, éxito `#4E7A3A`, alerta `#A8352C`.
+- Oro de las molduras: `#D8B45A`, reflejo `#F0D891`, sombra `#8C6522`. La madera de la barra y la mesa escribe sobre `--color-on-wood` (`#F5E3BD`), nunca sobre la tinta del pergamino.
+- **Variante nocturna** en el mismo archivo (fondo `#1B110A`, pergamino curtido `#3A2918`, texto `#F2E0BB`, acento `#D99A42`): entra con la preferencia del sistema y con el conmutador de la barra superior. Cualquier color nuevo se define en las dos.
+- Tipos, en pigmentos de iluminador: Planta `#7DA354`, Fuego `#CD6C2E`, Agua `#5C93BB`, Roca `#A98A60`, Eléctrico `#CFA92F`, Aire `#9AB6C4`.
+- Formas: radios 4/7/10/14 px; la pastilla de 999 px queda solo para barras y recursos del HUD. Bordes de 2 px, sombras talladas con reflejo de vela arriba (`--shadow-carved`) y molduras por `box-shadow` inset en dos tonos de oro.
+- Texturas reutilizables: `--texture-wood` (veta en `repeating-linear-gradient`) para barra, mesa y pestañas de móvil; `--texture-parchment` (dos radiales) para toda tarjeta de pergamino. Nunca imágenes de fondo externas.
+- Layout de escritorio: HUD como tablón de madera + tres pliegos de pergamino sobre la mesa (zona · Rancho · tienda). En móvil se apilan con las pestañas inferiores. **La organización de los elementos no cambia; solo su acabado.**
+- Canvas lógicos de referencia: zona 160×160, Rancho 256×160; escalado entero y el búfer estirado hasta llenar su caja. El lienzo va enmarcado como un cuadro: madera de 3 px y filete dorado interior.
+- Fuentes: **Cinzel** (rótulos, nombres, cifras y botones; versalitas con `letter-spacing` holgado en los títulos de columna), **Alegreya Sans** (interfaz y texto corrido) y **Pixelify Sans solo dentro del arte** (números flotantes y cartel de la zona).
 - Sprites: contorno de 1 px en un tono oscuro del propio color, nunca negro; se colocan por su base pintada para que apoyen en el suelo.
 - Criaturas: mapas dibujados a mano de 16×16 en `render/creatureMaps.ts` (claves `O B L D A a` + `E W S` comunes). El objeto clicable mide 64×64, los orbes 12×12 y los iconos del HUD 8×8.
 

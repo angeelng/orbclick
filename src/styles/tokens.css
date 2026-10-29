@@ -1,47 +1,61 @@
 /*
- * Dirección visual «Pastel moderno»: el arte sigue siendo pixel art, pero la
- * interfaz que lo rodea es clara y actual — superficies casi blancas, líneas
- * de 1 px, sombras difusas y una pastilla de acento.
+ * Dirección visual «Pergamino y roble»: el arte sigue siendo pixel art, pero
+ * la interfaz que lo rodea es una mesa de taberna medieval — tableros de
+ * madera, molduras doradas, tarjetas de pergamino y tinta sepia.
  *
- * La paleta tiene variante oscura, que entra sola con el tema del sistema o
+ * La paleta tiene variante nocturna, que entra sola con el tema del sistema o
  * forzando `data-theme` en el elemento raíz.
  */
 :root {
   color-scheme: light dark;
 
-  /* Superficies */
-  --color-bg: #f6f3fa;
-  --color-canvas: #efeaf7;
-  --color-panel: #ffffff;
-  --color-panel-raised: #faf8fd;
-  --color-surface-3: #f2edf8;
-  --color-border: #ece5f4;
-  --color-border-strong: #ded4ec;
+  /* Madera: el fondo de la mesa y la barra superior */
+  --color-wood: #6b4423;
+  --color-wood-dark: #4a2d16;
+  --color-wood-deep: #35200f;
+  --color-on-wood: #f5e3bd;
+  --color-on-wood-muted: #c9ab7c;
 
-  /* Texto */
-  --color-text: #2b2436;
-  --color-text-soft: #594e6b;
-  --color-text-muted: #847a96;
+  /* Oro: molduras, filetes y remates */
+  --color-gold: #d8b45a;
+  --color-gold-bright: #f0d891;
+  --color-gold-deep: #8c6522;
+
+  /* Superficies de pergamino */
+  --color-bg: #4a2d16;
+  --color-canvas: #6b4423;
+  --color-panel: #f4e4c1;
+  --color-panel-raised: #ecd6ab;
+  --color-surface-3: #e0c593;
+  --color-border: #c9a469;
+  --color-border-strong: #a97b43;
+
+  /* Tinta */
+  --color-text: #3b2410;
+  --color-text-soft: #5e3e22;
+  --color-text-muted: #8a6a46;
+  --color-ink: #3b2410;
 
   /* Acentos */
-  --color-accent: #8777e5;
-  --color-accent-soft: #eeeafd;
-  --color-coins: #d9a33f;
-  --color-coins-soft: #faf0d9;
-  --color-success: #45b88a;
-  --color-danger: #e87f96;
+  --color-accent: #9c5f22;
+  --color-accent-soft: #f0dcb0;
+  --color-coins: #b8862f;
+  --color-coins-soft: #f6e6ba;
+  --color-success: #4e7a3a;
+  --color-danger: #a8352c;
 
-  /* Tipos de criatura, en pastel */
-  --type-plant: #8fc47e;
-  --type-fire: #e98f5f;
-  --type-water: #74aedc;
-  --type-rock: #bca383;
-  --type-electric: #d9bf52;
-  --type-air: #9ec2d6;
+  /* Tipos de criatura, en pigmentos de iluminador */
+  --type-plant: #7da354;
+  --type-fire: #cd6c2e;
+  --type-water: #5c93bb;
+  --type-rock: #a98a60;
+  --type-electric: #cfa92f;
+  --type-air: #9ab6c4;
 
-  /* Tipografía: Outfit titula, Jakarta habla y Pixelify solo entra en el arte */
-  --font-display: Outfit, 'Plus Jakarta Sans', system-ui, sans-serif;
-  --font-body: 'Plus Jakarta Sans', 'Segoe UI', system-ui, sans-serif;
+  /* Tipografía: Cinzel talla los rótulos, Alegreya Sans habla y Pixelify Sans
+   * solo entra en el arte */
+  --font-display: Cinzel, 'Trajan Pro', Georgia, serif;
+  --font-body: 'Alegreya Sans', 'Segoe UI', system-ui, sans-serif;
   --font-pixel: 'Pixelify Sans', ui-monospace, monospace;
 
   /* Ritmo */
@@ -52,17 +66,46 @@
   --space-5: 24px;
   --space-6: 32px;
 
-  /* Formas */
-  --radius-s: 8px;
-  --radius: 12px;
-  --radius-l: 18px;
-  --radius-xl: 24px;
-  --border: 1px solid var(--color-border);
+  /* Formas: la talla en madera no admite pastillas enormes */
+  --radius-s: 4px;
+  --radius: 7px;
+  --radius-l: 10px;
+  --radius-xl: 14px;
+  --radius-pill: 999px;
+  --border: 1px solid var(--color-border-strong);
+  --border-wood: 2px solid var(--color-wood-dark);
 
-  /* Sombras difusas, nunca duras */
-  --shadow-1: 0 1px 2px rgb(43 36 54 / 5%);
-  --shadow-2: 0 1px 2px rgb(43 36 54 / 5%), 0 12px 26px -14px rgb(43 36 54 / 22%);
-  --shadow-3: 0 2px 4px rgb(43 36 54 / 6%), 0 26px 50px -22px rgb(43 36 54 / 30%);
+  /* Vetas y texturas reutilizables */
+  --texture-wood:
+    repeating-linear-gradient(
+      92deg,
+      rgb(0 0 0 / 11%) 0 2px,
+      rgb(255 255 255 / 4%) 2px 5px,
+      rgb(0 0 0 / 5%) 5px 9px,
+      transparent 9px 17px
+    ),
+    linear-gradient(170deg, var(--color-wood) 0%, var(--color-wood-dark) 100%);
+  --texture-parchment:
+    radial-gradient(120% 90% at 12% 0%, rgb(255 251 236 / 72%) 0%, transparent 58%),
+    radial-gradient(90% 80% at 92% 100%, rgb(168 124 62 / 20%) 0%, transparent 62%);
+
+  /* Sombras: talladas, con reflejo de luz de vela arriba */
+  --shadow-1: 0 1px 0 rgb(255 248 227 / 45%) inset, 0 1px 2px rgb(32 18 8 / 28%);
+  --shadow-2: 0 1px 0 rgb(255 248 227 / 50%) inset, 0 3px 6px rgb(32 18 8 / 32%);
+  --shadow-3: 0 1px 0 rgb(255 248 227 / 50%) inset, 0 10px 28px -8px rgb(26 14 6 / 60%);
+  --shadow-carved: 0 2px 0 rgb(32 18 8 / 30%), 0 6px 14px -6px rgb(26 14 6 / 55%);
+
+  /* Latón bruñido: botones de acción, lengüeta activa y barras de progreso */
+  --gradient-brass: linear-gradient(
+    180deg,
+    var(--color-gold-bright),
+    var(--color-gold) 48%,
+    color-mix(in srgb, var(--color-gold) 58%, var(--color-gold-deep))
+  );
+
+  /* Moldura dorada: el filete que enmarca madera y pergamino */
+  --frame-gold:
+    0 0 0 1px var(--color-gold-deep), 0 0 0 3px var(--color-gold), 0 0 0 4px var(--color-wood-deep);
 
   /* Layout de escritorio: zona · Rancho · tienda */
   --layout-zone: 1fr;
@@ -71,68 +114,101 @@
   --topbar-height: 64px;
 }
 
+/* Variante nocturna: la misma taberna, alumbrada solo por el fuego. */
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    --color-bg: #141120;
-    --color-canvas: #1a1628;
-    --color-panel: #1e1a2c;
-    --color-panel-raised: #241f34;
-    --color-surface-3: #2b2540;
-    --color-border: #302949;
-    --color-border-strong: #3c3458;
+    --color-wood: #2c1d12;
+    --color-wood-dark: #1b110a;
+    --color-wood-deep: #100a05;
+    --color-on-wood: #e8d2a4;
+    --color-on-wood-muted: #a98f68;
 
-    --color-text: #f1ecf9;
-    --color-text-soft: #cfc6e2;
-    --color-text-muted: #9d93b5;
+    --color-gold: #c9a24c;
+    --color-gold-bright: #e4c67e;
+    --color-gold-deep: #6e4d18;
 
-    --color-accent: #a596f2;
-    --color-accent-soft: #2c2550;
-    --color-coins: #e2b65c;
-    --color-coins-soft: #3a2f1c;
-    --color-success: #63c9a2;
-    --color-danger: #ee93a8;
+    --color-bg: #1b110a;
+    --color-canvas: #2c1d12;
+    --color-panel: #3a2918;
+    --color-panel-raised: #46321e;
+    --color-surface-3: #533c25;
+    --color-border: #6a4d2e;
+    --color-border-strong: #85623b;
 
-    --type-plant: #93c882;
-    --type-fire: #e89763;
-    --type-water: #7fb6e2;
-    --type-rock: #c3ab8b;
-    --type-electric: #dec65c;
-    --type-air: #a6c8db;
+    --color-text: #f2e0bb;
+    --color-text-soft: #d7bf93;
+    --color-text-muted: #a98f68;
+    --color-ink: #2a1a0c;
 
-    --shadow-1: 0 1px 2px rgb(0 0 0 / 35%);
-    --shadow-2: 0 1px 2px rgb(0 0 0 / 35%), 0 14px 30px -16px rgb(0 0 0 / 70%);
-    --shadow-3: 0 2px 6px rgb(0 0 0 / 40%), 0 28px 54px -24px rgb(0 0 0 / 80%);
+    --color-accent: #d99a42;
+    --color-accent-soft: #4a341d;
+    --color-coins: #e0b457;
+    --color-coins-soft: #45321a;
+    --color-success: #7fb158;
+    --color-danger: #d4685c;
+
+    --type-plant: #86ab5c;
+    --type-fire: #d4793c;
+    --type-water: #6b9ec5;
+    --type-rock: #b0916a;
+    --type-electric: #d6b140;
+    --type-air: #a3bec9;
+
+    --texture-parchment:
+      radial-gradient(120% 90% at 12% 0%, rgb(255 226 170 / 10%) 0%, transparent 58%),
+      radial-gradient(90% 80% at 92% 100%, rgb(0 0 0 / 28%) 0%, transparent 62%);
+
+    --shadow-1: 0 1px 0 rgb(255 221 160 / 10%) inset, 0 1px 2px rgb(0 0 0 / 55%);
+    --shadow-2: 0 1px 0 rgb(255 221 160 / 12%) inset, 0 3px 8px rgb(0 0 0 / 60%);
+    --shadow-3: 0 1px 0 rgb(255 221 160 / 12%) inset, 0 12px 32px -8px rgb(0 0 0 / 80%);
+    --shadow-carved: 0 2px 0 rgb(0 0 0 / 55%), 0 6px 16px -6px rgb(0 0 0 / 70%);
   }
 }
 
 :root[data-theme='dark'] {
-  --color-bg: #141120;
-  --color-canvas: #1a1628;
-  --color-panel: #1e1a2c;
-  --color-panel-raised: #241f34;
-  --color-surface-3: #2b2540;
-  --color-border: #302949;
-  --color-border-strong: #3c3458;
+  --color-wood: #2c1d12;
+  --color-wood-dark: #1b110a;
+  --color-wood-deep: #100a05;
+  --color-on-wood: #e8d2a4;
+  --color-on-wood-muted: #a98f68;
 
-  --color-text: #f1ecf9;
-  --color-text-soft: #cfc6e2;
-  --color-text-muted: #9d93b5;
+  --color-gold: #c9a24c;
+  --color-gold-bright: #e4c67e;
+  --color-gold-deep: #6e4d18;
 
-  --color-accent: #a596f2;
-  --color-accent-soft: #2c2550;
-  --color-coins: #e2b65c;
-  --color-coins-soft: #3a2f1c;
-  --color-success: #63c9a2;
-  --color-danger: #ee93a8;
+  --color-bg: #1b110a;
+  --color-canvas: #2c1d12;
+  --color-panel: #3a2918;
+  --color-panel-raised: #46321e;
+  --color-surface-3: #533c25;
+  --color-border: #6a4d2e;
+  --color-border-strong: #85623b;
 
-  --type-plant: #93c882;
-  --type-fire: #e89763;
-  --type-water: #7fb6e2;
-  --type-rock: #c3ab8b;
-  --type-electric: #dec65c;
-  --type-air: #a6c8db;
+  --color-text: #f2e0bb;
+  --color-text-soft: #d7bf93;
+  --color-text-muted: #a98f68;
+  --color-ink: #2a1a0c;
 
-  --shadow-1: 0 1px 2px rgb(0 0 0 / 35%);
-  --shadow-2: 0 1px 2px rgb(0 0 0 / 35%), 0 14px 30px -16px rgb(0 0 0 / 70%);
-  --shadow-3: 0 2px 6px rgb(0 0 0 / 40%), 0 28px 54px -24px rgb(0 0 0 / 80%);
+  --color-accent: #d99a42;
+  --color-accent-soft: #4a341d;
+  --color-coins: #e0b457;
+  --color-coins-soft: #45321a;
+  --color-success: #7fb158;
+  --color-danger: #d4685c;
+
+  --type-plant: #86ab5c;
+  --type-fire: #d4793c;
+  --type-water: #6b9ec5;
+  --type-rock: #b0916a;
+  --type-electric: #d6b140;
+  --type-air: #a3bec9;
+
+  --texture-parchment:
+    radial-gradient(120% 90% at 12% 0%, rgb(255 226 170 / 10%) 0%, transparent 58%),
+    radial-gradient(90% 80% at 92% 100%, rgb(0 0 0 / 28%) 0%, transparent 62%);
+
+  --shadow-1: 0 1px 0 rgb(255 221 160 / 10%) inset, 0 1px 2px rgb(0 0 0 / 55%);
+  --shadow-2: 0 1px 0 rgb(255 221 160 / 12%) inset, 0 3px 8px rgb(0 0 0 / 60%);
+  --shadow-3: 0 1px 0 rgb(255 221 160 / 12%) inset, 0 12px 32px -8px rgb(0 0 0 / 80%);
+  --shadow-carved: 0 2px 0 rgb(0 0 0 / 55%), 0 6px 16px -6px rgb(0 0 0 / 70%);
 }

@@ -16,8 +16,8 @@ body {
   background: var(--color-bg);
   color: var(--color-text);
   font-family: var(--font-body);
-  font-size: 15px;
-  line-height: 1.6;
+  font-size: 16px;
+  line-height: 1.55;
   -webkit-font-smoothing: antialiased;
   /* Clicar rápido no debe seleccionar texto ni hacer zoom. */
   user-select: none;
@@ -31,7 +31,8 @@ h3 {
   margin: 0;
   font-family: var(--font-display);
   font-weight: 600;
-  letter-spacing: -0.015em;
+  /* Los rótulos van tallados: espaciados y sin cursiva de imprenta. */
+  letter-spacing: 0.04em;
 }
 
 button {
@@ -48,8 +49,39 @@ canvas {
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-accent);
+  outline: 2px solid var(--color-gold);
   outline-offset: 2px;
+}
+
+/*
+ * Barras de desplazamiento a juego: carril de madera hundida y pulgar de
+ * latón. Sin esto el gris del navegador rompe la mesa.
+ */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-border-strong) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  border-radius: var(--radius-s);
+  background: rgb(58 36 16 / 12%);
+}
+
+*::-webkit-scrollbar-thumb {
+  border: 2px solid transparent;
+  border-radius: var(--radius-pill);
+  background: var(--color-border-strong);
+  background-clip: content-box;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--color-accent);
+  background-clip: content-box;
 }
 
 /*
